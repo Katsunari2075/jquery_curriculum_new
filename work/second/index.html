@@ -30,15 +30,20 @@
         // .fadeIn() 一定時間かけてフェードインする。
         // .fadeOut() 一定時間かけてフェードアウトする。
 
-        var a = $('.modal');
+        var modal = $('.modal');
         
-        $('.modal-show').on("click",function() {
-          a.fadeIn(500);
+        $('.modal-show').on("click", function() {
+          modal.fadeIn(500);
         });
 
-        $('.modal-close').on("click",function() {
-          a.fadeOut(500);
+        $('.modal-close').on("click", function() {
+          modal.fadeOut(500);
         });
+
+        // 説明用
+        // 今回の問題は、イベントを登録するということだったので、onメソッドを使った。
+        // onメソッドを使うメリットはイベントを複数登録できる。
+        // イベントごとに処理を変えることができる。
       });
     </script>
   </body>

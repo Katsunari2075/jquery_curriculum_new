@@ -70,7 +70,10 @@
 <script src="../../common/js/jquery.js"></script>
 <script>
 $(function(){
-
+  // なんのための記述なのか調べる。
+  // どういう動きをするのか？
+  // HTMLが読み込まれたら、下の処理を実行するという働きをする（準備ができたら）ページを全部読み込めたら。。。
+  // 通常は$(document).ready(function(){})という書き方をするが、省略して、上記の書き方もできる。
 
 
 
@@ -122,13 +125,13 @@ $(function(){
     $(this).prepend('DOMの中の前')
            .append('DOMの中の後')
            .before('DOMの前')
-           .after('DOMの後') 
+           .after('DOMの後');
   });
 
   // 『第4問 説明用メモ』
   // idを取得。クリックイベントを記述。
-  // その中に、実行したいメソッドを記述。（メソッドの説明は別ページ）
-
+  // その中に、実行したいメソッドを記述。
+  // メソッドチェーン
 
 
   
@@ -196,7 +199,7 @@ $(function(){
 
   // 第9問  id='q9'の要素をクリックしたらこの要素に設定してあるdata属性をconsoleに表示せよ。
   $('#q9').click(function() {
-    var text = $(this).data('text');
+    var text = $(this).data();
     console.log(text);
   });
 
@@ -223,7 +226,6 @@ $(function(){
 
 
   
-
 });
 </script>
 </body>
