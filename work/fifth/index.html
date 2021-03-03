@@ -103,8 +103,8 @@
         $('.select').on('change', function() {
           var selectVal = $(this).val();
 
-          $('.list').children('li').each(function(index, val) {
-            var data = $(this).data('category-type')
+          $('.list').children('li').each(function() {
+            var data = $(this).data('category-type');
 
             if (selectVal == data || selectVal == 'all') {
               $(this).show();
