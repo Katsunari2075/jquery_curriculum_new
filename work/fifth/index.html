@@ -102,16 +102,20 @@
         
         $('.select').on('change', function() {
           var selectVal = $(this).val();
+          
+          if (selectVal === 'all') {
+            $('.list').children('li').show();
+          } else {
+            $('.list').children('li').each(function(index, value) {
+              var data =  $(value).data('category-type');
 
-          $('.list').children('li').each(function() {
-            var data = $(this).data('category-type');
-
-            if (selectVal == data || selectVal == 'all') {
-              $(this).show();
-            } else if (selectVal != data) {
-              $(this).hide();
-            }
-          });
+              if (selectVal === data) {
+                $(value).show();
+              } else if (selectVal !== data) {
+                $(value).hide();
+              }
+            });
+          }
         });
 
       })
