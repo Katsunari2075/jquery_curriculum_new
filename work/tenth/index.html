@@ -125,8 +125,11 @@
                 $('.lists').prepend(list);
                 
               });
+            } else {
+              $('.message').html('<p class="error-message">検索結果は見つかりませんでした。<br>別のキーワードで検索して下さい。</p>')
             }
-            // console.log(data);
+
+            console.log(data);
           });
 
         });
