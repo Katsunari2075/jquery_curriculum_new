@@ -91,8 +91,66 @@
       $(function() {
 
         $('.search__btn').on('click', function() {
-          var keyword = $('.search__text__input').val();
+          
+          ajax();
 
+        });
+
+        $(document).on('click', '[data-js="page-next"]', function(event) {
+          event.preventDefault()
+          // aの挙動を打ち消す
+
+          ajax();
+        });
+
+        // list関数
+        function list(data) {
+          $('.lists').empty();
+          $.each(data.Items, function(index, item) {
+
+            var list = $(
+              '<li class="lists__item">' + 
+                  '<div class="lists__item__inner">' + 
+                      '<a href="' + item.Item.itemUrl + '" class="lists__item__link" target="_blank">' + 
+                         '<img src="' + item.Item.mediumImageUrl + '" class="lists__item__img" alt="">' + 
+                         '<p class="lists__item__detail">作品名：' + item.Item.title + '</p>' + 
+                         '<p class="lists__item__detail">作者　：' + item.Item.author + '</p>' + 
+                         '<p class="lists__item__detail">出版社：' + item.Item.publisherName + '</p>' +
+                      '</a>' + 
+                  '</div>' +
+              '</li>'
+            );
+
+            $('.lists').append(list);
+
+          });
+        };
+        // list関数
+
+        // pager関数
+        function pager(data) {
+          $('.pager').remove();
+          var pager = $(
+            '<div class="pager" data-js="pager">' + 
+              '<div class="counter">' + 
+                '<span class="counter-current">'+ data.page + '</span>/<span class="counter-all">' + data.pageCount + '</span>' +
+              '</div>' +
+              '<div class="btn-wrapper">' + 
+                '<a class="btn-item" data-js="page-prev" href="">前へ</a>' +
+                '<a class="btn-item" data-js="page-next" href="">次へ</a>' +
+              '</div>' +
+            '</div>'
+          );
+              
+          $('.lists').after(pager);
+        };
+        // pager関数
+
+        // ajax
+        function ajax(data) {
+
+          var keyword = $('.search__text__input').val(); 
+          
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
@@ -101,77 +159,27 @@
               applicationId: appId, 
               booksGenreId: '001',
               keyword: keyword,
-              hits:'20'
+              hits:'20',
+              page: 1
             }
           })
           .done(function(data) {
 
-            if(data.count > 20) {
+            if(data.count > 0) {
 
-              list(); // list関数の呼び出し
-              pager(); // pager関数の呼び出し
+              list(data); // list関数の呼び出し 
 
-            } else if (data.count <= 20) {
+              pager(data); // pager関数の呼び出し
               
-              list(); // list関数の呼び出し
-              pager(); // pager関数の呼び出し
-
             } else {
               $('.message').html('<p class="error-message">検索結果は見つかりませんでした。<br>別のキーワードで検索して下さい。</p>')
             }
 
-
-            
-
-            
             console.log(data);
 
-
-            // list関数
-            function list() {
-              $('.lists').empty();
-              $.each(data.Items, function(index, item) {
-
-                var list = $(
-                  '<li class="lists__item">' + 
-                      '<div class="lists__item__inner">' + 
-                          '<a href="' + item.Item.itemUrl + '" class="lists__item__link" target="_blank">' + 
-                              '<img src="' + item.Item.mediumImageUrl + '" class="lists__item__img" alt="">' + 
-                              '<p class="lists__item__detail">作品名：' + item.Item.title + '</p>' + 
-                              '<p class="lists__item__detail">作者　：' + item.Item.author + '</p>' + 
-                              '<p class="lists__item__detail">出版社：' + item.Item.publisherName + '</p>' +
-                          '</a>' + 
-                      '</div>' +
-                  '</li>'
-                );
-
-                $('.lists').append(list);
-
-              });
-            };
-            // list関数
-
-            // pager関数
-            function pager() {
-              var pager = $(
-                '<div class="pager" data-js="pager">' + 
-                  '<div class="counter">' + 
-                    '<span class="counter-current">'+ data.page + '</span>/<span class="counter-all">' + data.pageCount + '</span>' +
-                  '</div>' +
-                  '<div class="btn-wrapper">' + 
-                    '<a class="btn-item" data-js="page-prev" href="">前へ</a>' +
-                    '<a class="btn-item" data-js="page-next" href="">次へ</a>' +
-                  '</div>' +
-                '</div>'
-              );
-              
-              $('.lists').after(pager);
-            };
-            // pager関数
           });
-
-        });
-
+        };
+        // ajax
       });
     </script>
   </body>
