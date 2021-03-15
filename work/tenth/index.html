@@ -91,7 +91,7 @@
       $(function() {
 
         $('.search__btn').on('click', function() {
-          
+
           ajax();
 
         });
@@ -147,10 +147,12 @@
         // pager関数
 
         // ajax
-        function ajax(data) {
+        function ajax() {
 
           var keyword = $('.search__text__input').val(); 
-          
+
+          var page = data.page + 1
+
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
             type: 'GET',
@@ -160,7 +162,7 @@
               booksGenreId: '001',
               keyword: keyword,
               hits:'20',
-              page: 1
+              page: page
             }
           })
           .done(function(data) {
