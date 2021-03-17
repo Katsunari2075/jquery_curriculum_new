@@ -101,8 +101,7 @@
 
         // 次のページ
         $(document).on('click', '[data-js="page-next"]', function(event) {
-          event.preventDefault()
-          // aの挙動を打ち消す
+          event.preventDefault() // aの挙動を打ち消す
 
           $('body, html').animate({scrollTop:0}, 0);
 
@@ -171,6 +170,14 @@
           );
               
           $('.lists').after(pager);
+
+          if (data.count < 20) {
+            $('.btn-item').addClass('disabled');
+          } else if (data.page === 1) {
+            $('[data-js="page-prev"]').addClass('disabled');
+          } else if (data.page === data.pageCount) {
+            $('[data-js="page-next"]').addClass('disabled');
+          } 
         };
         // pager関数
 
