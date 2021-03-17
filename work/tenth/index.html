@@ -88,20 +88,48 @@
       //   </div>
       // </div>
 
+      
       $(function() {
 
+        // 検索
         $('.search__btn').on('click', function() {
 
           ajax();
 
         });
+        // 検索
 
+        // 次のページ
         $(document).on('click', '[data-js="page-next"]', function(event) {
           event.preventDefault()
           // aの挙動を打ち消す
 
+          $('body, html').animate({scrollTop:0}, 0);
+
+          page += 1;
+
           ajax();
         });
+        // 次のページ
+
+        // 前のページ
+        $(document).on('click', '[data-js="page-prev"]', function(event) {
+          event.preventDefault()
+          // aの挙動を打ち消す
+
+          $('body, html').animate({scrollTop:0}, 0);
+
+          page -= 1;
+
+          ajax();
+        });
+        // 前のページ
+
+
+        // グローバル変数
+        var page = 1;
+        // グローバル変数
+
 
         // list関数
         function list(data) {
@@ -150,8 +178,6 @@
         function ajax() {
 
           var keyword = $('.search__text__input').val(); 
-
-          var page = data.page + 1
 
           $.ajax({
             url: 'https://app.rakuten.co.jp/services/api/BooksTotal/Search/20130522',
