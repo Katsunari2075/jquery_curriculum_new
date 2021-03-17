@@ -99,35 +99,40 @@
         });
         // 検索
 
+
+
+
         // 次のページ
         $(document).on('click', '[data-js="page-next"]', function(event) {
-          event.preventDefault() // aの挙動を打ち消す
-
-          $('body, html').animate({scrollTop:0}, 0);
-
+  
           page += 1;
 
-          ajax();
+          prevNext(page);
+
         });
         // 次のページ
+
+
+
 
         // 前のページ
         $(document).on('click', '[data-js="page-prev"]', function(event) {
-          event.preventDefault()
-          // aの挙動を打ち消す
-
-          $('body, html').animate({scrollTop:0}, 0);
 
           page -= 1;
 
-          ajax();
+          prevNext(page);
+
         });
         // 前のページ
+
+
 
 
         // グローバル変数
         var page = 1;
         // グローバル変数
+
+
 
 
         // list関数
@@ -153,6 +158,9 @@
           });
         };
         // list関数
+
+
+
 
         // pager関数
         function pager(data) {
@@ -181,6 +189,24 @@
         };
         // pager関数
 
+
+
+        
+        // prevNext関数
+        function prevNext(page) {
+
+          event.preventDefault() // aの挙動を打ち消す
+
+          $('body, html').animate({scrollTop:0}, 0);
+
+          ajax();
+
+        };
+        // prevNext関数
+
+
+
+
         // ajax
         function ajax() {
 
@@ -207,14 +233,15 @@
               pager(data); // pager関数の呼び出し
               
             } else {
-              $('.message').html('<p class="error-message">検索結果は見つかりませんでした。<br>別のキーワードで検索して下さい。</p>')
+              $('.message').html('<p class="error-message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>')
             }
 
             console.log(data);
 
-          });
+          })
         };
         // ajax
+
       });
     </script>
   </body>
