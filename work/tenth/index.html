@@ -128,13 +128,6 @@
 
 
 
-        // グローバル変数
-        var page = 1;
-        // グローバル変数
-
-
-
-
         // list関数
         function list(data) {
           $('.lists').empty();
@@ -191,7 +184,7 @@
 
 
 
-        
+
         // prevNext関数
         function prevNext(page) {
 
@@ -203,6 +196,13 @@
 
         };
         // prevNext関数
+
+
+
+
+        // グローバル変数
+        var page = 1;
+        // グローバル変数
 
 
 
@@ -239,6 +239,20 @@
             console.log(data);
 
           })
+          .fail(function(XMLHttpRequest) {
+
+            $('.lists').empty();
+            $('.pager').remove();
+
+            if (XMLHttpRequest.status === 400) {
+              $('.message').html('<p class="error-message">検索文字が入力されていません。</p>')
+            } else if (XMLHttpRequest.status === 429) {
+              $('.message').html('<p class="error-message">リクエスト過多です。しばらく時間を置いてからお試しください。</p>')
+            } else if (XMLHttpRequest.status === 0 ) {
+              $('.message').html('<p class="error-message">通信に失敗しました。インターネットの接続をご確認ください。</p>')
+            }
+
+          });
         };
         // ajax
 
