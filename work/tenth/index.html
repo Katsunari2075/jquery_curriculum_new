@@ -94,6 +94,8 @@
         // 検索
         $('.search__btn').on('click', function() {
 
+          page = 1;
+
           ajax();
 
         });
@@ -270,11 +272,7 @@
             } else if (XMLHttpRequest.status === 0 ) {
               $('.message').html('<p class="error-message">通信に失敗しました。インターネットの接続をご確認ください。</p>')
             }
-
-            // エラー文を消す
-
             // 次へを押すと2ページ目が出る。
-
           });
         };
         // ajax
