@@ -104,10 +104,14 @@
 
         // 次のページ
         $(document).on('click', '[data-js="page-next"]', function(event) {
-  
-          page += 1;
 
-          prevNext(page);
+          if ($(this).hasClass('disabled')) {
+            a_none();
+            $('.disabled').css("pointer-events", "none");
+          } else {
+            page += 1;
+            prevNext(page);
+          }
 
         });
         // 次のページ
@@ -118,12 +122,32 @@
         // 前のページ
         $(document).on('click', '[data-js="page-prev"]', function(event) {
 
-          page -= 1;
-
-          prevNext(page);
+          if ($(this).hasClass('disabled')) {
+            a_none();
+            $('.disabled').css("pointer-events", "none");
+          } else {
+            page -= 1;
+            prevNext(page);
+          }
 
         });
         // 前のページ
+
+
+
+
+        // グローバル変数
+        var page = 1;
+        // グローバル変数
+
+
+
+
+        // a_none関数
+        function a_none() {
+          event.preventDefault() // aの挙動を打ち消す
+        };
+        // a_none関数
 
 
 
@@ -179,6 +203,7 @@
           } else if (data.page === data.pageCount) {
             $('[data-js="page-next"]').addClass('disabled');
           } 
+
         };
         // pager関数
 
@@ -188,7 +213,7 @@
         // prevNext関数
         function prevNext(page) {
 
-          event.preventDefault() // aの挙動を打ち消す
+          a_none();
 
           $('body, html').animate({scrollTop:0}, 0);
 
@@ -196,13 +221,6 @@
 
         };
         // prevNext関数
-
-
-
-
-        // グローバル変数
-        var page = 1;
-        // グローバル変数
 
 
 
@@ -251,6 +269,10 @@
             } else if (XMLHttpRequest.status === 0 ) {
               $('.message').html('<p class="error-message">通信に失敗しました。インターネットの接続をご確認ください。</p>')
             }
+
+            // エラー文を消す
+
+            // 次へを押すと2ページ目が出る。
 
           });
         };
