@@ -155,6 +155,7 @@
         // list関数
         function list(data) {
           $('.lists').empty();
+          $('.message').remove();
           $.each(data.Items, function(index, item) {
 
             var list = $(
