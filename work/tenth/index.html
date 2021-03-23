@@ -91,73 +91,59 @@
       
       $(function() {
 
-        // 検索
-        $('.search__btn').on('click', function() {
+        // グローバル変数
+        var page = 1;
+        // グローバル変数
 
+        // 検索
+        $('[data-js="search-btn"]').on('click', function() {
+          // データ属性にする
           page = 1;
 
-          ajax();
+          bookSearch();
 
         });
         // 検索
-
-
-
 
         // 次のページ
         $(document).on('click', '[data-js="page-next"]', function(event) {
 
           if ($(this).hasClass('disabled')) {
-            a_none();
+            btnCancel();
             $('.disabled').css("pointer-events", "none");
           } else {
             page += 1;
-            prevNext(page);
+            pageMove(page);
           }
 
         });
         // 次のページ
 
-
-
-
         // 前のページ
         $(document).on('click', '[data-js="page-prev"]', function(event) {
 
           if ($(this).hasClass('disabled')) {
-            a_none();
+            btnCancel();
             $('.disabled').css("pointer-events", "none");
           } else {
             page -= 1;
-            prevNext(page);
+            pageMove(page);
           }
 
         });
         // 前のページ
 
-
-
-
-        // グローバル変数
-        var page = 1;
-        // グローバル変数
-
-
-
-
-        // a_none関数
-        function a_none() {
+        // btnCancel関数
+        function btnCancel() {
           event.preventDefault() // aの挙動を打ち消す
         };
-        // a_none関数
+        // btnCancel関数
 
-
-
-
-        // list関数
-        function list(data) {
+        // bookShow関数
+        function bookShow(data) {
           $('.lists').empty();
           $('.message').remove();
+          var books = [];
           $.each(data.Items, function(index, item) {
 
             var list = $(
@@ -173,17 +159,17 @@
               '</li>'
             );
 
-            $('.lists').append(list);
+            books.push(list);
+
+            // $('.lists').append(list);
 
           });
+          $('.lists').append(books);
         };
-        // list関数
+        // bookShow関数
 
-
-
-
-        // pager関数
-        function pager(data) {
+        // pagerShow関数
+        function pagerShow(data) {
           $('.pager').remove();
           var pager = $(
             '<div class="pager" data-js="pager">' + 
@@ -199,7 +185,7 @@
               
           $('.lists').after(pager);
 
-          if (data.count < 20) {
+          if (data.count <= 20) {
             $('.btn-item').addClass('disabled');
           } else if (data.page === 1) {
             $('[data-js="page-prev"]').addClass('disabled');
@@ -208,28 +194,22 @@
           } 
 
         };
-        // pager関数
+        // pagerShow関数
 
+        // pageMove関数
+        function pageMove(page) {
 
-
-
-        // prevNext関数
-        function prevNext(page) {
-
-          a_none();
+          btnCancel();
 
           $('body, html').animate({scrollTop:0}, 0);
 
-          ajax();
+          bookSearch();
 
         };
-        // prevNext関数
+        // pageMove関数
 
-
-
-
-        // ajax
-        function ajax() {
+        // bookSearch関数
+        function bookSearch() {
 
           var keyword = $('.search__text__input').val(); 
 
@@ -249,9 +229,9 @@
 
             if(data.count > 0) {
 
-              list(data); // list関数の呼び出し 
+              bookShow(data); // bookShow関数の呼び出し 
 
-              pager(data); // pager関数の呼び出し
+              pagerShow(data); // pagerShow関数の呼び出し
               
             } else {
               $('.message').html('<p class="error-message">検索結果が見つかりませんでした。<br>別のキーワードで検索して下さい。</p>')
@@ -260,22 +240,35 @@
             console.log(data);
 
           })
-          .fail(function(XMLHttpRequest) {
+          .fail(function(error) {
 
             $('.lists').empty();
             $('.pager').remove();
 
-            if (XMLHttpRequest.status === 400) {
-              $('.message').html('<p class="error-message">検索文字が入力されていません。</p>')
-            } else if (XMLHttpRequest.status === 429) {
-              $('.message').html('<p class="error-message">リクエスト過多です。しばらく時間を置いてからお試しください。</p>')
-            } else if (XMLHttpRequest.status === 0 ) {
-              $('.message').html('<p class="error-message">通信に失敗しました。インターネットの接続をご確認ください。</p>')
-            }
-            // 次へを押すと2ページ目が出る。
+            errorHandling(error);
+
+            // switch文で実装
           });
         };
-        // ajax
+        // bookSearch関数
+
+        // errorHandling関数
+        function errorHandling(error) {
+
+          switch(error.status) {
+            case 400:
+              $('.message').html('<p class="error-message">検索文字が入力されていません。</p>')
+              break;
+            case 429:
+              $('.message').html('<p class="error-message">リクエスト過多です。しばらく時間を置いてからお試しください。</p>')
+              break;
+            case 0:
+              $('.message').html('<p class="error-message">通信に失敗しました。インターネットの接続をご確認ください。</p>')
+              break;
+          }
+
+        };
+        // errorHandling関数
 
       });
     </script>
